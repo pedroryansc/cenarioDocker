@@ -1,12 +1,14 @@
 <!DOCTYPE html>
+@php $titulo = "Lista de E-mails"; @endphp
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de E-mails</title>
+    <title>{{ $titulo }}</title>
 </head>
 <body>
-    <h2>Lista de E-mails</h2>
+    @include("menu")
+    <h2>{{ $titulo }}</h2>
     <hr>
     @if(!$emails->isEmpty())
         <table>
@@ -26,7 +28,7 @@
             </tbody>
         </table>
     @else
-        <p>Nenhum e-mail foi enviado.</p>
+        <p>Nenhum e-mail enviado.</p>
     @endif
 </body>
 </html>

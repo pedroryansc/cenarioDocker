@@ -22,7 +22,7 @@ class EmailController extends Controller
      */
     public function create()
     {
-        //
+        return view("email.create");
     }
 
     /**
