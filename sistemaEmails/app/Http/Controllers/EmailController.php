@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Email;
 
 class EmailController extends Controller
 {
@@ -11,7 +12,9 @@ class EmailController extends Controller
      */
     public function index()
     {
-        //
+        $emails = Email::all();
+
+        return view("email.index")->with("emails", $emails);
     }
 
     /**
