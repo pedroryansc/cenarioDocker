@@ -1,0 +1,64 @@
+services:
+  # Servidor NGINX
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "81:80"
+    volumes:
+      - ./sistemaEmails:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+    networks:
+      - redeCenario
+
+  # PHP (PHP-FPM)
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: php
+    volumes:
+      - ./sistemaEmails:/var/www/html
+    depends_on:
+      - mysql
+    networks:
+      - redeCenario
+
+  # Banco de dados relacional (MySQL)
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: sistemaEmails
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - redeCenario
+
+  # Banco de dados NoSQL (MongoDB)
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27018:27017"
+    networks:
+      - redeCenario
+
+# Volumes persistentes
+volumes:
+  mysql-data:
+  mongo-data:
+
+# Rede interna
+networks:
+  redeCenario:
+    driver: bridge
