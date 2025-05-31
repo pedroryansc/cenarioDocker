@@ -10,7 +10,7 @@
     @include("menu")
     <h2>{{ $titulo }}</h2>
     <hr>
-    <form action="{{ route('usuario.store') }}" method="POST">
+    <form action="{{ route('email.store') }}" method="POST">
         @csrf
         De: <input type="email" name="remetente" size="30">
         <br><br>

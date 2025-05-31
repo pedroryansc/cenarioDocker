@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Email;
+use App\Models\User;
 
 class EmailController extends Controller
 {
@@ -13,6 +14,11 @@ class EmailController extends Controller
     public function index()
     {
         $emails = Email::all();
+
+        foreach($emails as $email){
+            $email->remetente = User::find($email->remetente_id);
+            $email->destinatario = User::find($email->destinatario_id);
+        }
 
         return view("email.index")->with("emails", $emails);
     }
@@ -30,7 +36,16 @@ class EmailController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $email = new Email();
+
+        $email->remetente_id = User::where("email", $request->input("remetente"))->get()->first()->id;
+        $email->destinatario_id = User::where("email", $request->input("destinatario"))->get()->first()->id;
+        $email->assunto = $request->input("assunto");
+        $email->mensagem = $request->input("mensagem");
+
+        $email->save();
+
+        return redirect()->route("email.index");
     }
 
     /**
@@ -38,7 +53,12 @@ class EmailController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $email = Email::find($id);
+
+        $email->remetente = User::find($email->remetente_id);
+        $email->destinatario = User::find($email->destinatario_id);
+
+        return view("email.show")->with("email", $email);
     }
 
     /**
@@ -46,6 +66,10 @@ class EmailController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $email = Email::find($id);
+
+        $email->delete();
+
+        return redirect()->route("email.index");
     }
 }

@@ -11,7 +11,7 @@
     <h2>{{ $titulo }}</h2>
     <hr>
     @if(!$emails->isEmpty())
-        <table>
+        <table border=1>
             <thead>
                 <th>Remetente</th>
                 <th>Destinatário</th>
@@ -20,9 +20,10 @@
             <tbody>
                 @foreach($emails as $email)
                     <tr>
-                        <td>{{ $email->remetente_id }}</td>
-                        <td>{{ $email->destinatario_id }}</td>
+                        <td>{{ $email->remetente->email }}</td>
+                        <td>{{ $email->destinatario->email }}</td>
                         <td>{{ $email->assunto }}</td>
+                        <td><a href="{{ route('email.show', $email->id) }}">Abrir</a></td>
                     </tr>
                 @endforeach
             </tbody>

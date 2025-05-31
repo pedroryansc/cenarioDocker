@@ -10,7 +10,5 @@ class Email extends Model
 
     protected $collection = "emails";
 
-    protected $fillable = ["rementente_id", "destinatario_id", "assunto", "mensagem", "anexos"];
-
-    protected $casts = ["anexos" => "array"];
+    protected $fillable = ["remetente_id", "destinatario_id", "assunto", "mensagem"];
 }
